@@ -12,11 +12,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func init() {
-	initializers.LoadEnv()
-}
-
 func main() {
+
+	initializers.LoadEnv()
 
 	db, err := dbconnection.OpenDB()
 	if err != nil {
