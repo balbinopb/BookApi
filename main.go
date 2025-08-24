@@ -5,7 +5,9 @@ import (
 	dbconnection "book-api/database/db_connection"
 	"book-api/database/migration"
 	"book-api/router"
+	"fmt"
 	"log"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +29,13 @@ func main() {
 	r := gin.Default()
 
 	router.Routes(r)
-	
-	r.Run(":8080")
+
+
+	port := os.Getenv("PGPORT")
+	if port == "" {
+		port = "8080"
+	}
+
+	fmt.Printf("\nServer running di: http://localhost:%s ...\n", port)
+	r.Run(":" + port)
 }
