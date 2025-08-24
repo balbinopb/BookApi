@@ -28,7 +28,7 @@ func main() {
 	router.Routes(r)
 
 
-	port := os.Getenv("PORT")
+	port := os.Getenv("PGPORT")
 	if port == "" {
 		port = "8080"
 	}
