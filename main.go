@@ -5,7 +5,6 @@ import (
 	dbconnection "book-api/database/db_connection"
 	"book-api/database/migration"
 	"book-api/router"
-	"fmt"
 	"log"
 	"os"
 
@@ -34,6 +33,5 @@ func main() {
 		port = "8080"
 	}
 
-	fmt.Printf("\nServer running di: http://localhost:%s ...\n", port)
 	r.Run(":" + port)
 }
