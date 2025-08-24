@@ -8,6 +8,9 @@ import (
 	_ "github.com/lib/pq"
 )
 
+
+var DB *sql.DB
+
 func getenv(k, d string) string {
 	if v := os.Getenv(k); v != "" {
 		return v
@@ -16,16 +19,16 @@ func getenv(k, d string) string {
 }
 
 func OpenDB() (*sql.DB, error) {
-
+	var err error
 	if url := os.Getenv("DATABASE_URL"); url != "" {
-		db, err := sql.Open("postgres", url)
+		DB, err = sql.Open("postgres", url)
 		if err != nil {
 			return nil, err
 		}
-		if err := db.Ping(); err != nil {
+		if err := DB.Ping(); err != nil {
 			return nil, err
 		}
-		return db, nil
+		return DB, nil
 	}
 
 	host := getenv("DB_HOST", "localhost")
@@ -38,12 +41,12 @@ func OpenDB() (*sql.DB, error) {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
 		user, pass, host, port, name, ssl)
 
-	db, err := sql.Open("postgres", dsn)
+	DB, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
-	if err := db.Ping(); err != nil {
+	if err := DB.Ping(); err != nil {
 		return nil, err
 	}
-	return db, nil
+	return DB, nil
 }

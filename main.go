@@ -1,11 +1,11 @@
 package main
 
 import (
+	"book-api/config/initializers"
 	dbconnection "book-api/database/db_connection"
 	"book-api/database/migration"
-	"book-api/initializers"
+	"book-api/router"
 	"log"
-	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -25,10 +25,8 @@ func main() {
 	migration.DBMigrate(db)
 
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run()
+
+	router.Routes(r)
+	
+	r.Run(":8080")
 }
