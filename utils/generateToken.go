@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"fmt"
 	"os"
 	"time"
 
@@ -10,17 +9,14 @@ import (
 
 var secretKey = []byte(os.Getenv("SECRET_KEY"))
 
-func GenerateToken() {
-	
-	claims:= jwt.MapClaims{
-		"foo": "bar",
-		"nbf": time.Date(2015, 10, 10, 12, 0, 0, 0, time.UTC).Unix(),
+// GenerateToken generates a JWT token for a user
+func GenerateToken(username string) (string, error) {
+	claims := jwt.MapClaims{
+		"username": username,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(), // expires in 24 hours
+		"iat":      time.Now().Unix(),                     // issued at
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
-	tokenString, err := token.SignedString(secretKey)
-
-	fmt.Println(tokenString, err)
-
+	return token.SignedString(secretKey)
 }
