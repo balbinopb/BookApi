@@ -6,7 +6,6 @@ import (
 	"book-api/database/migration"
 	"book-api/router"
 	"log"
-	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -28,10 +27,5 @@ func main() {
 	router.Routes(r)
 
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "8080"
-	}
-
-	r.Run(":" + port)
+	r.Run()
 }
