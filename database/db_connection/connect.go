@@ -2,6 +2,7 @@ package dbconnection
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 
@@ -11,19 +12,22 @@ import (
 var DB *sql.DB
 
 func OpenDB() (*sql.DB, error) {
-	url := os.Getenv("DATABASE_URL")
-	if url == "" {
-		log.Fatal("DATABASE_URL is not set! Please add it in Railway environment variables.")
-	}
+	connStr := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		os.Getenv("PGHOST"),
+		os.Getenv("PGPORT"),
+		os.Getenv("PGUSER"),
+		os.Getenv("PGPASSWORD"),
+		os.Getenv("PGDATABASE"),
+	)
 
-	var err error
-	DB, err = sql.Open("postgres", url)
+	DB, err := sql.Open("postgres", connStr)
 	if err != nil {
-		return nil, err
+		log.Fatal("Failed to open DB:", err)
 	}
 
 	if err := DB.Ping(); err != nil {
-		return nil, err
+		log.Fatal("Failed to ping DB:", err)
 	}
 
 	log.Println("Database connected successfully")
