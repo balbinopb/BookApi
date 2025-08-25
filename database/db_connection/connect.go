@@ -23,13 +23,13 @@ func OpenDB() (*sql.DB, error) {
 
 	DB, err := sql.Open("postgres", connStr)
 	if err != nil {
-		log.Fatal("Failed to open DB:", err)
+		log.Fatal("FAILED TO OPEN DATABASE:", err)
 	}
 
 	if err := DB.Ping(); err != nil {
-		log.Fatal("Failed to ping DB:", err)
+		log.Fatal("FAILED TO PING DATABASE:", err)
 	}
 
-	log.Println("Database connected successfully")
+	log.Println("DATABASE IS CONNECTED SUCCESFULLY!!!")
 	return DB, nil
 }
