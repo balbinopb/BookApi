@@ -22,6 +22,7 @@ func main() {
 	defer db.Close()
 
 	migration.DBMigrate(db)
+	dbconnection.DB = db
 
 	r := gin.Default()
 
