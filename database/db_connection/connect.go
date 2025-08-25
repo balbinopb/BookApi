@@ -17,8 +17,13 @@ func OpenDB() (*sql.DB, error) {
 		log.Fatal("DATABASE_URL is not set! Please add it in Railway environment variables.")
 	}
 
-	log.Println("Connecting to database...")
-	DB, err := sql.Open("postgres", url)
+	// log.Println("Connecting to database...")
+	connStr := fmt.Sprintf(
+		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
+		os.Getenv("PGHOST"), os.Getenv("PGPORT"), os.Getenv("PGUSER"), os.Getenv("PGPASSWORD"), os.Getenv("PGDATABASE"),
+	)
+
+	DB, err := sql.Open("postgres", connStr)
 	if err != nil {
 		return nil, fmt.Errorf("failed to open database: %w", err)
 	}
